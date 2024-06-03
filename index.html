@@ -23,9 +23,9 @@
             <hr class="bg-white w-50" />
             <div class="d-flex align-items-center justify-content-center">
               Nombre:
-              <input class="form-control d-inline mx-3" required />
+              <input  class="form-control d-inline mx-3" required />
               Balance:
-              <input class="form-control d-inline mx-3" required />
+              <input  class="form-control d-inline mx-3" required />
               <button type="submit" class="btn btn-danger">Agregar</button>
             </div>
           </div>
@@ -67,7 +67,7 @@
                 />
               </div>
 
-              <button type="submit" class="btn btn-danger">Relalizar</button>
+              <button type="submit" class="btn btn-danger">Realizar</button>
             </div>
           </div>
         </form>
@@ -194,14 +194,15 @@
   };
 
   const editUsuario = async (id) => {
-    const name = $("#nombreEdit").val();
+    const nombre = $("#nombreEdit").val();
     const balance = $("#balanceEdit").val();
     try {
       const { data } = await axios.put(
-        `http://localhost:3000/usuario?id=${id}`,
+        `http://localhost:3000/usuario`,
         {
-          name,
-          balance,
+          id,
+          nombre,
+          balance,          
         }
       );
       $("#exampleModal").modal("hide");
@@ -214,15 +215,16 @@
   $("form:first").submit(async (e) => {
     e.preventDefault();
     let nombre = $("form:first input:first").val();
-    let balance = Number($("form:first input:nth-child(2)").val());
+    let balance = Number($("form:first input:nth-child(2)").val());    
     try {
       const response = await fetch("http://localhost:3000/usuario", {
         method: "post",
         body: JSON.stringify({
-          nombre,
-          balance,
+          nombre :"",
+          balance:"",
         }),
       });
+      console.log(response)
       $("form:first input:first").val("");
       $("form:first input:nth-child(2)").val("");
       location.reload();
@@ -299,10 +301,10 @@
     data.forEach((t) => {
       $(".transferencias").append(`
        <tr>
-         <td> ${formatDate(t[4])} </td>
-         <td> ${t[1]} </td>
-         <td> ${t[2]} </td>
-         <td> ${t[3]} </td>
+         <td> ${formatDate(t.fecha)} </td>
+         <td> ${t.emisor} </td>
+         <td> ${t.receptor} </td>
+         <td> ${t.monto} </td>
        </tr>
      `);
     });
